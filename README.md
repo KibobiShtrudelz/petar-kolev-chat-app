@@ -1,2 +1,3 @@
 # petar-kolev-chat-app
-Chat App
+
+## NodeJS Chat App
