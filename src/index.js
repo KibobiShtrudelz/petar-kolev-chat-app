@@ -21,9 +21,15 @@ io.on("connection", socket => {
   console.log("New WebSocket connection!");
 
   socket.emit("message", "Welcome!");
+  socket.broadcast.emit("message", "A new user has joined!");
 
   socket.on("sendMessage", message => {
     io.emit("message", message);
+  });
+
+  // when user disconnects we use "socket.on" inside the "io.on" event
+  socket.on("disconnect", () => {
+    io.emit("message", "A user has left");
   });
 });
 
