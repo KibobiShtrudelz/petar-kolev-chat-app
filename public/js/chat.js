@@ -4,12 +4,15 @@ socket.on("message", message => console.log(message));
 
 const form = document.querySelector("#message-form");
 
-form.addEventListener("submit", event => {
-  event.preventDefault();
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  socket.emit("sendMessage", e.target.elements.message.value, error => {
+    if (error) {
+      return console.log(error);
+    }
 
-  const message = event.target.elements.message.value;
-
-  socket.emit("sendMessage", message);
+    console.log("Message delivered!");
+  });
 });
 
 document.querySelector("#send-location").addEventListener("click", event => {
@@ -18,9 +21,17 @@ document.querySelector("#send-location").addEventListener("click", event => {
   }
 
   navigator.geolocation.getCurrentPosition(({ coords }) => {
-    socket.emit("sendLocation", {
-      latitude: coords.latitude,
-      longitude: coords.longitude
-    });
+    socket.emit(
+      "sendLocation",
+      {
+        latitude: coords.latitude,
+        longitude: coords.longitude
+      },
+      message => {
+        if (message) {
+          console.log(message);
+        }
+      }
+    );
   });
 });
