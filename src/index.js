@@ -20,8 +20,13 @@ app.use(express.static(publicDirectoryPath));
 io.on("connection", socket => {
   console.log("New WebSocket connection");
 
-  socket.emit("message", generateMessage("Welcome!"));
-  socket.broadcast.emit("message", generateMessage("A new user has joined!"));
+  socket.on("join", ({ username, room }) => {
+    socket.join(room);
+    socket.emit("message", generateMessage("Welcome!"));
+    socket.broadcast
+      .to(room)
+      .emit("message", generateMessage(`${username} ja joined!`));
+  });
 
   socket.on("sendMessage", (message, callback) => {
     const filter = new Filter();
@@ -30,7 +35,7 @@ io.on("connection", socket => {
       return callback("Profanity is not allowed!");
     }
 
-    io.emit("message", generateMessage(message));
+    io.to("Chepato").emit("message", generateMessage(message));
     callback();
   });
 
