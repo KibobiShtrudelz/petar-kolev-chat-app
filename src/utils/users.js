@@ -41,12 +41,9 @@ const removeUser = id => {
   }
 };
 
-addUser({ id: 22, username: "Peckata", room: "Sofia" });
-console.log(users);
-
-const removedUser = removeUser(22);
-console.log(removedUser);
-
-const getUser = () => {};
-
-const getUsersInRoom = () => {};
+module.exports = {
+  addUser,
+  removeUser,
+  getUser,
+  getUsersInRoom
+};
