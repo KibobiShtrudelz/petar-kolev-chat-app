@@ -1,8 +1,20 @@
-const generateMessage = text => ({ text, createdAt: new Date().getTime() });
+const generateMessage = (username, text) => {
+  return {
+    username,
+    text,
+    createdAt: new Date().getTime()
+  };
+};
 
-const generateLocationMessage = (latitude, longitude) => ({
-  url: `https://google.com/maps?q=${latitude},${longitude}`,
-  createdAt: new Date().getTime()
-});
+const generateLocationMessage = (username, url) => {
+  return {
+    username,
+    url,
+    createdAt: new Date().getTime()
+  };
+};
 
-module.exports = { generateMessage, generateLocationMessage };
+module.exports = {
+  generateMessage,
+  generateLocationMessage
+};
